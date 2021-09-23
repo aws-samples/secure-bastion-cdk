@@ -12,6 +12,7 @@ test('init stack', () => {
   stack = new NetworkInstance.AwsBastionNetworkCdkStack(
     app,
     'MyNetworkTestStack',
+    {},
     {
       region: 'eu-central-1',
       prefix: 'test',

@@ -16,6 +16,9 @@ const account = app.node.tryGetContext('account');
 new AwsBastionNetworkCdkStack(
   app,
   'AwsBastion-NetworkCdkStack',
+  {
+    description: "AwsBastionNetworkCdkStack (qs-1s91omist)"
+  },
   context
 );
 
@@ -27,6 +30,7 @@ new AwsBastionEc2CdkStack(
       account: account,
       region: context.region,
     },
+    description: "AwsBastionEc2CdkStack (qs-1s91omj0d)"
   },
   context
 );

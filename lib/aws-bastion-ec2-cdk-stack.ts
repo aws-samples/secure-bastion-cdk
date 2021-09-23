@@ -34,7 +34,6 @@ export class AwsBastionEc2CdkStack extends cdk.Stack {
      if(!vpcId)
        return;
 
-    console.log(vpcId);
     const vpc = importer.getVpc(vpcId, this);
     const subnets = vpc.selectSubnets({ subnetType: ec2.SubnetType.PRIVATE });
 

@@ -4,8 +4,8 @@ import * as ssm from '@aws-cdk/aws-ssm';
 import { ContextProps } from './constructs';
 
 export class AwsBastionNetworkCdkStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, context: ContextProps) {
-    super(scope, id);
+  constructor(scope: cdk.Construct, id: string, props: cdk.StackProps, context: ContextProps) {
+    super(scope, id, props);
 
     
     const projectPrefix = context.prefix;
