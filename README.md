@@ -52,7 +52,7 @@ $ cd secure-bastion-cdk
 $ cdk bootstrap aws://{account_id}/{your_selected_region}
 Note: Bootstrapping launches resources into your AWS environment that are required by AWS CDK. These include an S3 bucket for storing files and [AWS Identity and Access Management (IAM)](https://aws.amazon.com/iam/) roles that grant permissions needed to run our deployment.
 
-##Step 2: Configure your target environments
+## Step 2: Configure your target environments
 You can configure the environment you would like to deploy by changing the settings in cdk.json in the project root directory. A typical environment example as shown below will need the following properties to be created, you can add as many environments as you want, then refer to the target environment configuration in "cdk deploy -c environment="{environment_name}" as it will be explained in step 3 of this walkthrough.
 
 ```
@@ -77,7 +77,6 @@ You can configure the environment you would like to deploy by changing the setti
         "ssmPrefix": "/core/network"
       }
     }
-
 ```
 
 Please note that you can use existing VPC with Private Subnet to provision the Bastion Host on it by setting value for (existingVpcId) properties. However, if you wish to deploy the solution to new VPC you can do so by setting (vpcConfig) properties. Then deploy "AwsBastion-NetworkCdkStack" first to provision the VPC as instructed in "Deploy the solution" setup below. Please find below example. 
@@ -87,14 +86,14 @@ Please note that you can use existing VPC with Private Subnet to provision the B
 You need to choose one approach, you can't use both, if there is any value in "existingVpcId" then it will be used over the second approach of creating new VPC.
 In (allowedSecurityGroups) add all the Security Groups IDs for private resources that you would allow the bastion host to communicate with.
 
-##Step 3: Deploy the Solution
+## Step 3: Deploy the Solution
 Deploy the solution using the configured profile from step 1.
 
 ```
 $ npm install #(compiles and installes necessary dependencies)
 $ npm test    #(runs unit tests)
-
 ```
+
 If you choose to deploy new VPC to be used for the Bastion Host, then you need to deploy "AwsBastion-NetworkCdkStack" first as follow.
 
 ```
@@ -118,7 +117,7 @@ You’ll be asked: Do you wish to deploy these changes (y/n)? Hit “y”. The s
 
 ![Secure Bastion Host Architecture](./docs/AwsBastion-Ec2CdkStack-output.png)
 
-##Step 4: Test the Solution
+## Step 4: Test the Solution
 
 Here is how to connect to Bastion Host using SSM session manager and SSH to open a tunnel and access private resources on your environments. Please follow the following steps.
 
@@ -194,8 +193,6 @@ Here is how to connect to Bastion Host using SSM session manager and SSH to open
         }
     ]
 }
-
-
 ```
 
 Note that you need to provide value for the {account_id} and if you would like to limit the access to specific secret resource using tags add the value for {tag_key}": "{tag_value}, else you can remove the condition which will give the user permission for all secrets in the mentioned account, which is not recommended.
@@ -205,6 +202,7 @@ Note that you need to provide value for the {account_id} and if you would like t
 ```
 $ aws configure --profile bastion-test
 ```
+
 3.	Read required parameters: You will need the ec2 instance ID to connect to session manager.
 
 ```
@@ -212,7 +210,6 @@ $ aws configure --profile bastion-test
          --filter "Name=tag:Name,Values= BastionHost" \
   --query "Reservations[].Instances[?State.Name =='running'].InstanceId[]" \
                --output text --profile bastion-test)
-
 ```
 
 4.	Connect using AWS Systems Manager session manager: You can use AWS Systems Manager session manager to connect to your Bastion Host using the following command
@@ -227,7 +224,6 @@ You can also use port forward session using the following command
 aws ssm start-session --target $INSTANCE_ID \
                        --document-name AWS-StartPortForwardingSession \
                        --parameters '{"portNumber":["{remote_port_number}"],"localPortNumber":["{your_local_port_number}"]}' --profile bastion-test
-
 ```
 
 You need to replace {remote_port_number}, {your_local_port_number} with the target port numbers from remote server to local port.
@@ -241,7 +237,6 @@ vim ~/.ssh/config
 #Add SSH over Session Manager
 host i-* mi-*
     ProxyCommand sh -c "aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'"
-
 ```
 
 Get instance key pair (which is deployed as part of "AwsBastion-Ec2CdkStack" stack deployment in step 3 and pushed to [AWS Secret Manager](https://aws.amazon.com/secrets-manager/)
@@ -273,8 +268,8 @@ To avoid unexpected charges to your account, make sure you clean up your CDK sta
 
 ```
 cdk destroy -c environment="<environment_name>" -c account="<ACCOUNT ID>" AwsBastion-Ec2CdkStack --profile bastion-cdk
-
 ```
+
 You’ll be asked: Are you sure you want to delete: AwsBastion-NetworkCdkStack, AwsBastion-Ec2CdkStack (y/n)?
 Hit “y” and you’ll see your stack being destroyed. A successful output should look like the following.
 
@@ -284,7 +279,6 @@ And if you choose to deploy the "AwsBastion-NetworkCdkStack" stack you can clean
 
 ```
 cdk destroy -c environment="<environment_name>" -c account="<ACCOUNT ID>" AwsBastion-NetworkCdkStack --profile bastion-cdk
-
 ```
 
 A successful output should look like the following.
