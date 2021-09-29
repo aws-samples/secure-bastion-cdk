@@ -18,11 +18,11 @@ For the deployment, you must have the following:
 # Solution Architecture
 
 In the exercises that follow, we use CDK to deploy two stacks:
-•	Stack A ("AwsBastion-NetworkCdkStack") contains Amazon Virtual Private Cloud (VPC), and this stack is optional, if you have existing VPC you can use it by setting “existingVpcId” value in “cdk.json” file as explained in the walkthrough step 2.
-•	Stack B ("AwsBastion-Ec2CdkStack") contains Amazon Elastic Compute Cloud (Amazon EC2) which act as the Bastion Host and contains all the required resources for it:
-o	Custom resource EC2-Key-Pair
-o	IAM Role and IAM policy
-o	Security Group
+- Stack A ("AwsBastion-NetworkCdkStack") contains Amazon Virtual Private Cloud (VPC), and this stack is optional, if you have existing VPC you can use it by setting “existingVpcId” value in “cdk.json” file as explained in the walkthrough step 2.
+- Stack B ("AwsBastion-Ec2CdkStack") contains Amazon Elastic Compute Cloud (Amazon EC2) which act as the Bastion Host and contains all the required resources for it:
+    - Custom resource EC2-Key-Pair
+    - IAM Role and IAM policy
+    - Security Group
 
 Here is a high-level architecture of the solution. 
 
